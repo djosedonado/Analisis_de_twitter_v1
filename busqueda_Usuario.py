@@ -10,7 +10,6 @@ client = Twarc2(bearer_token=Autenticacion.Bearer_Token)
 def tweets(usuario):
         user_timeline = client.timeline(user=usuario)
         for page in user_timeline:
-            cont = 0
             result = expansions.flatten(page)
             for tweet in result:
                 guardar = json.dumps(tweet, indent=4)
@@ -18,11 +17,13 @@ def tweets(usuario):
                 guardado.write(guardar)
                 guardado.close()
                 leer_tweets()
-            Arreglo = leer_contexto()
+                Arreglo = leer_contexto()
+                return Arreglo
+            
             #with open('Prueba.csv','w', newline='') as file:
                 #writer = csv.writer(file , delimiter=';')
                 #writer.writerow(respuesta)
-            return Arreglo
+        
         
 
 
@@ -59,7 +60,5 @@ def leer_contexto():
     #Graficas(followers,following,tweet,listed)
     #print("Seguidores: ", followers, " Seguido: ",following, " tweets: ", tweet, " listed: ", listed)
     return Arreglos
-
-
 
 

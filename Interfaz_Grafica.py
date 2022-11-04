@@ -5,7 +5,8 @@ from matplotlib.animation import FuncAnimation
 import busqueda_Usuario
 from tkinter import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import time
+import threading
+
 
 x_data = []
 y_data = []
@@ -24,7 +25,8 @@ def Panel_Banner(panelPrincipal):
     
 def Caja_Texto(panelPrincipal):
     def funciones():
-        PanelGrafico(panelPrincipal,cajaTexto.get())
+        hilo1 = threading.Thread(target=PanelGrafico(panelPrincipal,cajaTexto.get()))#hilos de la Grafica
+        hilo1.start()#Inicializacion de proceso en el hilo 1
     cajaTexto = Entry(panelPrincipal,bd=4)
     cajaTexto.place(x=10,y=10)
     cajaTexto.config(width=25)
@@ -84,17 +86,15 @@ def Panel_listas(panelPrincipal,datos):
 
 def PanelGrafico(panelPrincipal,buscarUser):#panel DE GRAFICA SEGUIDORES
     print(buscarUser)
-    time.sleep(10)
     PanelGrafico = Frame(panelPrincipal)
     PanelGrafico.pack()
-    PanelGrafico.config(bg="red",width=820,height=520)
+    PanelGrafico.config(bg="white",width=820,height=520)
     PanelGrafico.place(x=250,y=190)
     figure = pyplot.figure()
     line, = pyplot.plot_date(x_data, y_data, '-')
     def grafica(frame):
         while True: 
             datos = busqueda_Usuario.tweets(buscarUser)
-            
             x_data.append(datetime.now())
             y_data.append(datos[0])
             line.set_data(x_data, y_data)
@@ -105,7 +105,7 @@ def PanelGrafico(panelPrincipal,buscarUser):#panel DE GRAFICA SEGUIDORES
             Panel_tweets(panelPrincipal,datos)
             Panel_listas(panelPrincipal,datos)
             return line,
-    animacion3 = FuncAnimation(figure, grafica, interval=5000)
+    animacion3 = FuncAnimation(figure, grafica, interval=3000)
     canvas = FigureCanvasTkAgg(figure,master=PanelGrafico)
     canvas.get_tk_widget().place(x=140,y=50)
     canvas.draw()

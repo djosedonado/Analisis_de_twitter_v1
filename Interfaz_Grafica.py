@@ -8,36 +8,33 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import threading
 
 
-x_data = []
-y_data = []
+x_data = []#array eje x
+y_data = []#array eje y
 
 
 
-def Panel_Banner(panelPrincipal):
-    panelBanner = Frame(panelPrincipal)
+def Panel_Banner(panelPrincipal):#panel del encabezado
+    panelBanner = Frame(panelPrincipal)#creacion del panel
     panelBanner.pack(fill="x")
-    panelBanner.config(bg="white")
-    panelBanner.config(height=90)
+    panelBanner.config(bg="white")#color
+    panelBanner.config(height=90)#altura del banner
     tituloBanner = Label(panelBanner , text="Analisis de tweets",fg="blue",font=("Comic Sans MS",18),bg="white")
-    tituloBanner.place(x=450,y=20)
-    Caja_Texto(panelPrincipal)
+    tituloBanner.place(x=450,y=20)#ubicacion del texto del banner
+    Caja_Texto(panelPrincipal)#llamado de la caja de texto y el boton
 
     
-def Caja_Texto(panelPrincipal):
-    def funciones():
+def Caja_Texto(panelPrincipal):#caja de text
+    def funciones():#funcion del proceso a ejecutar
         hilo1 = threading.Thread(target=PanelGrafico(panelPrincipal,cajaTexto.get()))#hilos de la Grafica
         hilo1.start()#Inicializacion de proceso en el hilo 1
     cajaTexto = Entry(panelPrincipal,bd=4)
-    cajaTexto.place(x=10,y=10)
-    cajaTexto.config(width=25)
-    cajaTexto.place(x=60,y=90)
-    botonCaja = Button(panelPrincipal,command=funciones)
-    botonCaja.place(x=100,y=50)
-    botonCaja.config(text="Buscar")
-    botonCaja.config(width=10)
+    cajaTexto.config(width=25)#tamaño
+    cajaTexto.place(x=60,y=90)#ubicacion
+    botonCaja = Button(panelPrincipal,command=funciones)#accion del boton
+    botonCaja.place(x=100,y=50)#ubicacion
+    botonCaja.config(text="Buscar")#texto del boton
+    botonCaja.config(width=10)#tamaño
 
-
-    
 
 def Panel_Seguidores(panelPrincipal,datos):
     panelSeguidores = Frame(panelPrincipal)
